@@ -1,3 +1,4 @@
+
 # This workflow will upload a Python Package to PyPI when a release is created
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
 
@@ -35,6 +36,7 @@ jobs:
           auto-activate-base: false
           
       - run: |
+          conda activate jupyterlab_stata_highlight3
           conda info
           conda list
 
