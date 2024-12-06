@@ -1,97 +1,48 @@
-# CodeMirror Extension
+# JupyterLab Extension for Stata Syntax Highlighting
 
-> Add new features to CodeMirror editors. They are the text editors
-> used for cell and text file edition.
+[![PyPI](https://github.com/lutherbu/jupyterlab_stata_highlight3/actions/workflows/python-publish.yml/badge.svg)](https://github.com/lutherbu/jupyterlab_stata_highlight3/actions/workflows/python-publish.yml)
 
-In this example, you will learn you how to add a new CodeMirror extension
-to the editors.
+Stata syntax highlighting for JupyterLab 4+.
 
-![CodeMirror extension](preview.png)
+## Requirements
 
-This example adds an CodeMirror extension displaying zebra stripes in
-the editors with configurable stripe step.
+* JupyterLab >= 4.0
 
-> This example does not example how CodeMirror extensions
-> are working but how to integrate it in JupyterLab. For
-> more information, look at the [documentation](https://codemirror.net/docs/) and in particular
-> at the [example](https://codemirror.net/examples/zebra/) this code is built upon.
+## Install
 
-To add a new CodeMirror extension, your JupyterLab extension must request
-the token [`IEditorExtensionRegistry`]() from `@jupyterlab/codemirror`:
-
-```ts
-// src/index.ts#L94-L99
-
-const plugin: JupyterFrontEndPlugin<void> = {
-  id: '@jupyterlab-examples/codemirror-extension:plugin',
-  description: 'A minimal JupyterLab extension adding a CodeMirror extension.',
-  autoStart: true,
-  requires: [IEditorExtensionRegistry],
-  activate: (app: JupyterFrontEnd, extensions: IEditorExtensionRegistry) => {
+```bash
+pip install jupyterlab_stata_highlight2
 ```
 
-Then you can use that registry to add your extension:
+## Contributing
 
-<!-- prettier-ignore-start -->
-```ts
-// src/index.ts#L101-L119
+### Development install
 
-extensions.addExtension(
-  Object.freeze({
-    name: '@jupyterlab-examples/codemirror:zebra-stripes',
-    // Default CodeMirror extension parameters
-    default: 2,
-    factory: () =>
-      // The factory will be called for every new CodeMirror editor
-      EditorExtensionRegistry.createConfigurableExtension((step: number) =>
-        zebraStripes({ step })
-      ),
-    // JSON schema defining the CodeMirror extension parameters
-    schema: {
-      type: 'number',
-      title: 'Show stripes',
-      description:
-        'Display zebra stripes every "step" in CodeMirror editors.'
-    }
-  })
-);
+```bash
+# clone the repository
+git clone https://github.com/lutherbu/jupyterlab_stata_highlight3.git
+
+# go to the repository folder
+cd jupyterlab_stata_highlight3
+
+# install the extension in editable mode
+python -m pip install -e .
+
+# install your development version of the extension with JupyterLab
+jupyter labextension develop . --overwrite
+
+# build the TypeScript source after making changes
+jlpm run build
+
+# start JupyterLab
+jupyter lab
 ```
-<!-- prettier-ignore-end -->
+## Credits and Licenses
 
-The registration requires an unique identifier `name` and
-a `factory`. That factory will be called every time a new
-editor is created.  
-In this specific case as the extension takes parameters,
-the helper method `EditorExtensionRegistry.createConfigurableExtension`
-is used. It expects a callback that will receive the extension
-parameters and returns the CodeMirror extension.  
-The callback will be triggered every time they change.
+- [jupyterlab-stata-highlight](https://github.com/kylebarron/jupyterlab-stata-highlight/): making all these possible by [kylebarron](https://github.com/kylebarron)
+- [jupyterlab_stata_highlight2](https://github.com/hugetim/jupyterlab_stata_highlight2): prebuilt package on PyPI by [hugetim](https://github.com/hugetim)
+- [codemirror-legacy-stata](https://github.com/ticoneva/codemirror-legacy-stata): hack by [ticoneva](https://github.com/ticoneva) based on [@codemirror/legacy-modes](https://github.com/codemirror/legacy-modes)
+- [codemirror-extension](https://github.com/lutherbu/extension-examples/tree/main/codemirror-extension): extension examples for JupyterLab 4.0+
+- ChatGPT: for TypeScript ... :sweat_smile:
 
-As parameters are used, the `default` key can be specified
-with the default parameters value. And if you want the user
-to be able to customize the parameters, you can define a
-[JSON schema](https://json-schema.org/understanding-json-schema) describing the parameters.
-
-Here are some comments on the CodeMirror extension. It is composed of
-three elemental extensions:
-
-```ts
-// src/index.ts#L83-L89
-
-export function zebraStripes(options: { step?: number } = {}): Extension {
-  return [
-    baseTheme,
-    typeof options.step !== 'number' ? [] : stepSize.of(options.step),
-    showStripes
-  ];
-}
-```
-
-`baseTheme` adds new CSS rules to the CodeMirror editors, `stepSize`
-stores the configurable step parameter and `showStripes` update the
-editor view to display the stripes.
-
-## Where to Go Next
-
-This example extends in a non-classical way JupyterLab user settings. You
-can learn more about those settings looking at that [example](../settings/README.md).
+Please follow licenses specified above (if any)
