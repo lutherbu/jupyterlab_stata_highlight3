@@ -57,9 +57,10 @@
         "@codemirror/state": "^6.0.0",
         "@codemirror/view": "^6.0.0",
         "@jupyterlab/application": "^4.0.0",
-        "@jupyterlab/codemirror": "^4.0.0",
         "@jupyterlab/coreutils": "^6.0.0",
         "@jupyterlab/builder": "^4.0.0"
+        "@jupyterlab/codemirror": "^4.0.0",
+
     },
     "devDependencies": {
         "@jupyterlab/testutils": "^4.0.0",
