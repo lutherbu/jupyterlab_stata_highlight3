@@ -30,6 +30,7 @@ jobs:
         run: |
           # NOTE: put your own distribution build steps here.
           $CONDA/bin/conda update --file environment.yml --name jupyterlab_stata_highlight3
+          tsc --version
           python -m pip install -e .
           jupyter labextension develop . --overwrite
           jlpm run build
