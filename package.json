@@ -11,8 +11,8 @@
     "bugs": {
         "url": "https://github.com/lutherbu/jupyterlab_stata_highlight3/issues"
     },
-    "license": "BSD-3-Clause",
-    "author": "Project Jupyter Contributors",
+    "license": "MIT License",
+    "author": "lutherbu",
     "files": [
         "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
         "style/**/*.{css,js,eot,gif,html,jpg,json,png,svg,woff2,ttf}"
