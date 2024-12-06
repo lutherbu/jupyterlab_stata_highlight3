@@ -18,13 +18,13 @@ permissions:
 jobs:
   release-build:
     runs-on: ubuntu-latest
-
+    
+    defaults:
+      run:
+        shell: bash -el {0}
+        
     steps:
       - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
           
       - name: Setup Miniconda
         # You may pin to the exact commit or the version.
@@ -36,7 +36,6 @@ jobs:
           auto-activate-base: false
           
       - run: |
-          conda activate jupyterlab_stata_highlight3
           conda info
           conda list
 
