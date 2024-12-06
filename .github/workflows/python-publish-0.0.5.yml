@@ -37,9 +37,9 @@ jobs:
           
       - run: |
           conda info
+          conda list
           jlpm install # regenerate yarn.lock
           jlpm info
-          # conda list
 
       - name: Build release distributions
         run: |
