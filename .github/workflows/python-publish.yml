@@ -1,3 +1,4 @@
+
 # This workflow will upload a Python Package to PyPI when a release is created
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
 
@@ -9,8 +10,7 @@
 name: Upload Python Package
 
 on:
-  release:
-    types: [published]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -18,23 +18,40 @@ permissions:
 jobs:
   release-build:
     runs-on: ubuntu-latest
-
+    
+    defaults:
+      run:
+        shell: bash -el {0}
+        
     steps:
       - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
+          
+      - name: Setup Miniconda
+        # You may pin to the exact commit or the version.
+        # uses: conda-incubator/setup-miniconda@a4260408e20b96e80095f42ff7f1a15b27dd94ca
+        uses: conda-incubator/setup-miniconda@v3.0.4
+        with: 
+          environment-file: environment.yml
+          activate-environment: jupyterlab_stata_highlight3
+          auto-activate-base: false
+          
+      - run: |
+          conda info
+          conda list
+          # explicitly specify node-modules rather than pnp
+          jlpm config set nodeLinker node-modules
+          # regenerate yarn.lock
+          jlpm install 
+          jlpm info
 
       - name: Build release distributions
         run: |
           # NOTE: put your own distribution build steps here.
-          $CONDA/bin/conda env create
-          $CONDA/bin/conda activate jupyterlab_stata_highlight3
-          $CONDA/bin/conda update --file environment.yml --name jupyterlab_stata_highlight3
+          
           python -m pip install -e .
           jupyter labextension develop . --overwrite
           jlpm run build
+          
           python -m pip install build
           python -m build
 
