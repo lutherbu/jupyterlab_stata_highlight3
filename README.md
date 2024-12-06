@@ -1,6 +1,6 @@
 # JupyterLab Extension for Stata Syntax Highlighting
 
-[![PyPI](https://github.com/lutherbu/jupyterlab_stata_highlight3/actions/workflows/python-publish.yml/badge.svg)](https://github.com/lutherbu/jupyterlab_stata_highlight3/actions/workflows/python-publish.yml)
+[![PyPI](https://github.com/lutherbu/jupyterlab_stata_highlight3/actions/workflows/python-publish.yml/badge.svg?event=release)](https://github.com/lutherbu/jupyterlab_stata_highlight3/actions/workflows/python-publish.yml)
 
 Stata syntax highlighting for JupyterLab 4+.
 
@@ -11,7 +11,7 @@ Stata syntax highlighting for JupyterLab 4+.
 ## Install
 
 ```bash
-pip install jupyterlab_stata_highlight2
+pip install jupyterlab_stata_highlight3
 ```
 
 ## Contributing
