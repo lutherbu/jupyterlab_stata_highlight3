@@ -7,4 +7,4 @@ dependencies:
   - pytest
   - pytest-check-links
   - pytest-jupyter >=0.6.0
-  - python=3
+  - python=3.12
