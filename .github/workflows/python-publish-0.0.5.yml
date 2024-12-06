@@ -37,7 +37,7 @@ jobs:
           
       - run: |
           conda info
-          jlpm info tsc
+          jlpm info typescript
           # conda list
 
       - name: Build release distributions
