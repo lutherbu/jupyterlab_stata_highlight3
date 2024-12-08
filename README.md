@@ -6,7 +6,7 @@ Stata syntax highlighting for JupyterLab 4+.
 
 ## Requirements
 
-* JupyterLab >= 4.0
+- JupyterLab >= 4.0
 
 ## Install
 
@@ -37,6 +37,7 @@ jlpm run build
 # start JupyterLab
 jupyter lab
 ```
+
 ## Credits and Licenses
 
 - [jupyterlab-stata-highlight](https://github.com/kylebarron/jupyterlab-stata-highlight/): making all these possible by [kylebarron](https://github.com/kylebarron)
