@@ -2139,4 +2139,4 @@ const color_translator = {
   def: 'def'
 };
 
-export {builtins_str, builtins_fun_str, color_translator};
+export { builtins_str, builtins_fun_str, color_translator };

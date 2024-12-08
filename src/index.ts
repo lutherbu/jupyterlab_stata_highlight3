@@ -25,7 +25,9 @@ export default [
       console.log(app.commands);
 
       // Read the settings
-      const setting = await settings.load('jupyterlab-stata-highlight3:settings');
+      const setting = await settings.load(
+        'jupyterlab-stata-highlight3:settings'
+      );
       const customKeywords = setting.get('keyword').composite as string[];
       console.log('Read custom keywords: ' + customKeywords.join(', '));
       const customKeywords_str = '(' + customKeywords.join('|') + ')';
@@ -34,7 +36,11 @@ export default [
         // The start state contains the rules that are initially used
         start: [
           // Comments
-          { regex: /\/\/\/?.*$/, token: color_translator['comment'], sol: true },
+          {
+            regex: /\/\/\/?.*$/,
+            token: color_translator['comment'],
+            sol: true
+          },
           { regex: /(\s)\/\/\/?.*$/, token: color_translator['comment'] },
           { regex: /\s*\*.*$/, token: color_translator['comment'], sol: true },
           {
@@ -44,11 +50,23 @@ export default [
           },
 
           // Strings
-          { regex: /"/, token: color_translator['string'], push: 'string_regular' },
-          { regex: /`"/, token: color_translator['string'], push: 'string_compound' },
+          {
+            regex: /"/,
+            token: color_translator['string'],
+            push: 'string_regular'
+          },
+          {
+            regex: /`"/,
+            token: color_translator['string'],
+            push: 'string_compound'
+          },
 
           // Macros
-          { regex: /`/, token: color_translator['variable-2'], push: 'macro_local' },
+          {
+            regex: /`/,
+            token: color_translator['variable-2'],
+            push: 'macro_local'
+          },
           {
             regex: /\$/,
             token: color_translator['variable-2'],
@@ -107,9 +125,17 @@ export default [
         ],
 
         string_compound: [
-          { regex: /`"/, token: color_translator['string'], push: 'string_compound' },
+          {
+            regex: /`"/,
+            token: color_translator['string'],
+            push: 'string_compound'
+          },
           { regex: /"'/, token: color_translator['string'], pop: true },
-          { regex: /`/, token: color_translator['variable-2'], push: 'macro_local' },
+          {
+            regex: /`/,
+            token: color_translator['variable-2'],
+            push: 'macro_local'
+          },
           {
             regex: /\$/,
             token: color_translator['variable-2'],
@@ -119,7 +145,11 @@ export default [
         ],
         string_regular: [
           { regex: /"/, token: color_translator['string'], pop: true },
-          { regex: /`/, token: color_translator['variable-2'], push: 'macro_local' },
+          {
+            regex: /`/,
+            token: color_translator['variable-2'],
+            push: 'macro_local'
+          },
           {
             regex: /\$/,
             token: color_translator['variable-2'],
@@ -128,7 +158,11 @@ export default [
           { regex: /./, token: color_translator['string'] }
         ],
         macro_local: [
-          { regex: /`/, token: color_translator['variable-2'], push: 'macro_local' },
+          {
+            regex: /`/,
+            token: color_translator['variable-2'],
+            push: 'macro_local'
+          },
           { regex: /'/, token: color_translator['variable-2'], pop: true },
           { regex: /./, token: color_translator['variable-2'] }
         ],
@@ -169,6 +203,3 @@ export default [
     }
   }
 ];
-
-
-
