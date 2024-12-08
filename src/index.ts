@@ -22,6 +22,7 @@ export default [
       settings: ISettingRegistry
     ) => {
       console.log('Activating Stata highlighting extension with settings');
+      console.log(app.commands);
 
       // Read the settings
       const setting = await settings.load('jupyterlab-stata-highlight3:settings');
@@ -145,6 +146,14 @@ export default [
         }
       });
 
+      // Register file type
+      app.docRegistry.addFileType({
+        name: 'stata',
+        displayName: 'Stata',
+        extensions: ['.do', '.ado'],
+        mimeTypes: ['text/x-stata']
+      });
+
       // Register the language
       registry.addLanguage({
         name: 'stata',
@@ -154,14 +163,6 @@ export default [
         load: async () => {
           return new LanguageSupport(StreamLanguage.define(stataMode));
         }
-      });
-
-      // Register file type
-      app.docRegistry.addFileType({
-        name: 'stata',
-        displayName: 'Stata',
-        extensions: ['.do', '.ado'],
-        mimeTypes: ['text/x-stata']
       });
 
       console.log('Stata highlighting activated with custom settings.');
