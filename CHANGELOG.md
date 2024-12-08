@@ -8,7 +8,7 @@
 
 ### Known bugs:
 
-- Unable to highlight `.do`/`.ado` files automatically. 
+- Unable to highlight `.do`/`.ado` files automatically.
 
 <!-- <END NEW CHANGELOG ENTRY> -->
 
