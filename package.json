@@ -1,6 +1,6 @@
 {
     "name": "jupyterlab-stata-highlight3",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "description": "Stata syntax highlighting for JupyterLab 4+.",
     "keywords": [
         "jupyter",
