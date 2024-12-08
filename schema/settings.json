@@ -1,0 +1,15 @@
+{
+  "title": "Stata Syntax Highlighting Settings",
+  "type": "object",
+  "properties": {
+    "keyword": {
+      "type": "array",
+      "title": "Custom Keywords",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    }
+  },
+  "additionalProperties": false
+}

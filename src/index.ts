@@ -4,41 +4,170 @@
 // Code below adapted from jupyterlab-stata-highlight, jupyterlab-stata-highlight2, and codemirror-legacy-stata
 // Distributed under an MIT license: https://github.com/kylebarron/jupyterlab-stata-highlight/blob/master/LICENSE
 
+import { simpleMode } from '@codemirror/legacy-modes/mode/simple-mode';
 import { StreamLanguage, LanguageSupport } from '@codemirror/language';
 import { JupyterFrontEnd } from '@jupyterlab/application';
 import { IEditorLanguageRegistry } from '@jupyterlab/codemirror';
-import { stata } from './stata';
+import { ISettingRegistry } from '@jupyterlab/settingregistry';
+import { builtins_str, builtins_fun_str, color_translator } from './stata';
 
-// Export the extension
 export default [
   {
     id: 'jupyterlab-stata-highlight3',
-    requires: [IEditorLanguageRegistry],
+    requires: [IEditorLanguageRegistry, ISettingRegistry],
     autoStart: true,
-    activate: (app: JupyterFrontEnd, registry: IEditorLanguageRegistry) => {
-      console.log(
-        'Activating Stata highlighting extension for JupyterLab 4.0+'
-      );
+    activate: async (
+      app: JupyterFrontEnd,
+      registry: IEditorLanguageRegistry,
+      settings: ISettingRegistry
+    ) => {
+      console.log('Activating Stata highlighting extension with settings');
 
-      // Register the language mode with CodeMirror
+      // Read the settings
+      const setting = await settings.load('jupyterlab-stata-highlight3:settings');
+      const customKeywords = setting.get('keyword').composite as string[];
+      console.log('Read custom keywords: ' + customKeywords.join(', '));
+      const customKeywords_str = '(' + customKeywords.join('|') + ')';
+
+      const stataMode = simpleMode({
+        // The start state contains the rules that are initially used
+        start: [
+          // Comments
+          { regex: /\/\/\/?.*$/, token: color_translator['comment'], sol: true },
+          { regex: /(\s)\/\/\/?.*$/, token: color_translator['comment'] },
+          { regex: /\s*\*.*$/, token: color_translator['comment'], sol: true },
+          {
+            regex: /\/\*/,
+            token: color_translator['comment'],
+            push: 'comments_block'
+          },
+
+          // Strings
+          { regex: /"/, token: color_translator['string'], push: 'string_regular' },
+          { regex: /`"/, token: color_translator['string'], push: 'string_compound' },
+
+          // Macros
+          { regex: /`/, token: color_translator['variable-2'], push: 'macro_local' },
+          {
+            regex: /\$/,
+            token: color_translator['variable-2'],
+            push: 'macro_global'
+          },
+
+          // Keywords
+          // There are two separate dictionaries because the `\b` at the beginning of the regex seemed not to work. So instead, I either match the preceding space before the keyword or require the keyword to be at beginning of the string. I think this necessitates two different strings.
+          {
+            regex: new RegExp('\\s' + builtins_str + '(?![\\(\\w])'),
+            token: color_translator['keyword']
+          },
+          {
+            regex: new RegExp(builtins_str + '\\b'),
+            token: color_translator['keyword'],
+            sol: true
+          },
+          {
+            regex: new RegExp('\\s' + customKeywords_str + '(?![\\(\\w])'),
+            token: color_translator['keyword']
+          },
+          {
+            regex: new RegExp(customKeywords_str + '\\b'),
+            token: color_translator['keyword'],
+            sol: true
+          },
+          {
+            regex: new RegExp('(\\W)' + builtins_fun_str),
+            token: ['', color_translator['def']]
+          },
+          // change null to "" in TypeScript
+          // {regex: /\s\w+(?=\()/, token: color_translator['def']},
+
+          { regex: /[{]/, indent: true },
+          { regex: /[}]/, dedent: true }
+
+          // {regex: /-|==|<=|>=|<|>|&|!=/, token: 'operator'},
+          // {regex: /\*|\+|\^|\/|!|~|=|~=/, token: 'operator'},
+        ],
+        comments_block: [
+          {
+            regex: /\/\*/,
+            token: color_translator['comment'],
+            push: 'comments_block'
+          },
+          // this ends and restarts a comment block. but need to catch this so
+          // that it doesn\'t start _another_ level of comment blocks
+          { regex: /\*\/\*/, token: color_translator['comment'] },
+          {
+            regex: /(\*\/\s+\*(?!\/)[^\n]*)|(\*\/)/,
+            token: color_translator['comment'],
+            pop: true
+          },
+          // Match anything else as a character inside the comment
+          { regex: /./, token: color_translator['comment'] }
+        ],
+
+        string_compound: [
+          { regex: /`"/, token: color_translator['string'], push: 'string_compound' },
+          { regex: /"'/, token: color_translator['string'], pop: true },
+          { regex: /`/, token: color_translator['variable-2'], push: 'macro_local' },
+          {
+            regex: /\$/,
+            token: color_translator['variable-2'],
+            push: 'macro_global'
+          },
+          { regex: /./, token: color_translator['string'] }
+        ],
+        string_regular: [
+          { regex: /"/, token: color_translator['string'], pop: true },
+          { regex: /`/, token: color_translator['variable-2'], push: 'macro_local' },
+          {
+            regex: /\$/,
+            token: color_translator['variable-2'],
+            push: 'macro_global'
+          },
+          { regex: /./, token: color_translator['string'] }
+        ],
+        macro_local: [
+          { regex: /`/, token: color_translator['variable-2'], push: 'macro_local' },
+          { regex: /'/, token: color_translator['variable-2'], pop: true },
+          { regex: /./, token: color_translator['variable-2'] }
+        ],
+        macro_global: [
+          { regex: /\}/, token: color_translator['variable-2'], pop: true },
+          {
+            regex: /.(?=[^\w{}])/,
+            token: color_translator['variable-2'],
+            pop: true
+          },
+          { regex: /./, token: color_translator['variable-2'] }
+        ],
+        languageData: {
+          name: 'stata'
+        }
+      });
+
+      // Register the language
       registry.addLanguage({
         name: 'stata',
         displayName: 'Stata',
         extensions: ['.do', '.ado'],
         mime: 'text/x-stata',
         load: async () => {
-          return new LanguageSupport(StreamLanguage.define(stata));
-          // See https://github.com/jupyterlab/extension-examples/README.md
+          return new LanguageSupport(StreamLanguage.define(stataMode));
         }
       });
 
-      // Register file type for Stata
+      // Register file type
       app.docRegistry.addFileType({
         name: 'stata',
         displayName: 'Stata',
         extensions: ['.do', '.ado'],
         mimeTypes: ['text/x-stata']
       });
+
+      console.log('Stata highlighting activated with custom settings.');
     }
   }
 ];
+
+
+
