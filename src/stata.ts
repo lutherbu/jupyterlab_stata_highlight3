@@ -12,7 +12,7 @@
 
 import { simpleMode } from '@codemirror/legacy-modes/mode/simple-mode';
 
-var builtins_base = [
+const builtins_base = [
   'if',
   'else',
   'in',
@@ -1816,9 +1816,9 @@ var builtins_base = [
   'ztvary_5',
   'ztweib_5'
 ];
-var builtins_str = '(' + builtins_base.join('|') + ')';
+const builtins_str = '(' + builtins_base.join('|') + ')';
 
-var builtins_functions = [
+const builtins_functions = [
   'Cdhms',
   'Chms',
   'Clock',
@@ -2131,9 +2131,9 @@ var builtins_functions = [
   'yq',
   'yw'
 ];
-var builtins_fun_str = '(' + builtins_functions.join('|') + ')(?=\\()';
+const builtins_fun_str = '(' + builtins_functions.join('|') + ')(?=\\()';
 
-var color_translator = {
+const color_translator = {
   comment: 'builtin',
   string: 'string',
   'variable-2': 'variable-2',
@@ -2185,8 +2185,8 @@ export const stata = simpleMode({
     // change null to "" in TypeScript
     // {regex: /\s\w+(?=\()/, token: color_translator['def']},
 
-    { regex: /[\{]/, indent: true },
-    { regex: /[\}]/, dedent: true }
+    { regex: /[{]/, indent: true },
+    { regex: /[}]/, dedent: true }
 
     // {regex: /-|==|<=|>=|<|>|&|!=/, token: 'operator'},
     // {regex: /\*|\+|\^|\/|!|~|=|~=/, token: 'operator'},
@@ -2238,7 +2238,7 @@ export const stata = simpleMode({
   macro_global: [
     { regex: /\}/, token: color_translator['variable-2'], pop: true },
     {
-      regex: /.(?=[^\w\{\}])/,
+      regex: /.(?=[^\w{}])/,
       token: color_translator['variable-2'],
       pop: true
     },
