@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "jupyterlab_stata_highlight3"
 readme = "README.md"
-license = { text = "BSD-3-Clause License" }
+license = { file = "LICENSE" }
 requires-python = ">=3.8"
 classifiers = [
     "Framework :: Jupyter",
@@ -30,15 +30,15 @@ dynamic = ["version", "description", "authors", "urls", "keywords"]
 source = "nodejs"
 
 [tool.hatch.metadata.hooks.nodejs]
-fields = ["description", "authors", "urls"]
+fields = ["description", "authors", "urls", "keywords"]
 
 [tool.hatch.build.targets.sdist]
 artifacts = ["jupyterlab_stata_highlight3/labextension"]
 exclude = [".github", "binder"]
 
 [tool.hatch.build.targets.wheel.shared-data]
-"jupyterlab_stata_highlight3/labextension" = "share/jupyter/labextensions/jupyterlab_stata_highlight3"
-"install.json" = "share/jupyter/labextensions/jupyterlab_stata_highlight3/install.json"
+"jupyterlab_stata_highlight3/labextension" = "share/jupyter/labextensions/jupyterlab-stata-highlight3"
+"install.json" = "share/jupyter/labextensions/jupyterlab-stata-highlight3/install.json"
 
 [tool.hatch.build.hooks.version]
 path = "jupyterlab_stata_highlight3/_version.py"
