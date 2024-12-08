@@ -1,0 +1,14 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v4.3.6
+_src_path: https://github.com/jupyterlab/extension-template
+author_email: luofan.bu@gmail.com
+author_name: lutherbu
+has_binder: false
+has_settings: false
+kind: frontend
+labextension_name: jupyterlab-stata-highlight3
+project_short_description: Stata syntax highlighting for JupyterLab 4+.
+python_name: jupyterlab_stata_highlight3
+repository: https://github.com/lutherbu/jupyterlab_stata_highlight3
+test: false
+
