@@ -2,6 +2,12 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.1.5
+
+- Fix `.do`/`.ado` file association.
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.1.4
 
 - Add configurable keywords via Editor Settings.
@@ -9,8 +15,6 @@
 ### Known bugs:
 
 - Unable to highlight `.do`/`.ado` files automatically.
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.1.3
 

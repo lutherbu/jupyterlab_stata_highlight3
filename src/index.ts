@@ -192,7 +192,8 @@ export default [
       registry.addLanguage({
         name: 'stata',
         displayName: 'Stata',
-        extensions: ['.do', '.ado'],
+        // Note that IEditorLanguage.extensions do not have "."
+        extensions: ['do', 'ado'],
         mime: 'text/x-stata',
         load: async () => {
           return new LanguageSupport(StreamLanguage.define(stataMode));
