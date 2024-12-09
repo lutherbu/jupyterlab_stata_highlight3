@@ -24,6 +24,10 @@ To remove the extension, execute:
 pip uninstall jupyterlab_stata_highlight3
 ```
 
+## Customize Keywords
+
+![](preview.jpeg)
+
 ## Contributing
 
 ### Development install
