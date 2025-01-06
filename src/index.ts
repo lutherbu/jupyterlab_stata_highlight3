@@ -30,15 +30,13 @@ export default [
       );
       const customKeywords = setting.get('keyword').composite as string[];
       let keywords_all = builtins_str;
-      if (customKeywords.length==0) 
-        {
-	        console.log('No custom keywords found! ');
-	      }
-      else
-	      {
-          console.log('Read custom keywords: ' + customKeywords.join(', '));
-	        keywords_all = builtins_str.slice(0,-1) + '|' + customKeywords.join('|') + ')';
-        }
+      if (customKeywords.length == 0) {
+        console.log('No custom keywords found! ');
+      } else {
+        console.log('Read custom keywords: ' + customKeywords.join(', '));
+        keywords_all =
+          builtins_str.slice(0, -1) + '|' + customKeywords.join('|') + ')';
+      }
       const stataMode = simpleMode({
         // The start state contains the rules that are initially used
         start: [
