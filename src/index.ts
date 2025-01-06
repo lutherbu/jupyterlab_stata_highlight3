@@ -30,7 +30,7 @@ export default [
       );
       const customKeywords = setting.get('keyword').composite as string[];
       let keywords_all = builtins_str;
-      if (customKeywords.length == 0) {
+      if (customKeywords.length === 0) {
         console.log('No custom keywords found! ');
       } else {
         console.log('Read custom keywords: ' + customKeywords.join(', '));
