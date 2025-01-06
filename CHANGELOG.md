@@ -2,11 +2,15 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.1.6
+
+- Fix crash due to empty custom keywords.
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.1.5
 
 - Fix `.do`/`.ado` file association.
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.1.4
 
