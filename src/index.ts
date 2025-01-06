@@ -29,9 +29,16 @@ export default [
         'jupyterlab-stata-highlight3:settings'
       );
       const customKeywords = setting.get('keyword').composite as string[];
-      console.log('Read custom keywords: ' + customKeywords.join(', '));
-      const customKeywords_str = '(' + customKeywords.join('|') + ')';
-
+      let keywords_all = builtins_str;
+      if (customKeywords.length==0) 
+        {
+	        console.log('No custom keywords found! ');
+	      }
+      else
+	      {
+          console.log('Read custom keywords: ' + customKeywords.join(', '));
+	        keywords_all = builtins_str.slice(0,-1) + '|' + customKeywords.join('|') + ')';
+        }
       const stataMode = simpleMode({
         // The start state contains the rules that are initially used
         start: [
@@ -76,20 +83,11 @@ export default [
           // Keywords
           // There are two separate dictionaries because the `\b` at the beginning of the regex seemed not to work. So instead, I either match the preceding space before the keyword or require the keyword to be at beginning of the string. I think this necessitates two different strings.
           {
-            regex: new RegExp('\\s' + builtins_str + '(?![\\(\\w])'),
+            regex: new RegExp('\\s' + keywords_all + '(?![\\(\\w])'),
             token: color_translator['keyword']
           },
           {
-            regex: new RegExp(builtins_str + '\\b'),
-            token: color_translator['keyword'],
-            sol: true
-          },
-          {
-            regex: new RegExp('\\s' + customKeywords_str + '(?![\\(\\w])'),
-            token: color_translator['keyword']
-          },
-          {
-            regex: new RegExp(customKeywords_str + '\\b'),
+            regex: new RegExp(keywords_all + '\\b'),
             token: color_translator['keyword'],
             sol: true
           },
